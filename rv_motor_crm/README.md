@@ -1,33 +1,64 @@
 # 🏍️ R&V Motor - Sistema CRM & Chatbot Automático con IA
 
-Este proyecto corresponde al entregable final del **Módulo de Programación con Inteligencia Artificial** de la Maestría en IA. Consiste en un prototipo funcional (MVP) de un CRM inteligente capaz de procesar mensajes entrantes de clientes, simular interacciones de campañas de marketing de motocicletas, clasificar el nivel de interés de los leads y visualizar las métricas en un Dashboard analítico en tiempo real.
+Este proyecto corresponde al entregable final del **Módulo de Programación con Inteligencia Artificial** de la Maestría en IA. Consiste en un prototipo real y funcional (MVP) de un CRM inteligente capaz de procesar mensajes entrantes de clientes, simular interacciones de campañas de marketing de motocicletas, clasificar el nivel de interés de los leads y visualizar las métricas en un Dashboard analítico en tiempo real.
 
 ---
 
-## 📅 Hito Semana 1: Infraestructura Base y Entorno de Despliegue
+## 🎯 Descripción y Funcionamiento del Proyecto
 
-En esta primera semana se ha configurado con éxito la arquitectura de software y el entorno de despliegue continuo para garantizar la estabilidad del proyecto sin interferir con las prácticas del aula regular.
+El sistema está diseñado para automatizar la atención al cliente y medir el impacto financiero de las campañas publicitarias de la concesionaria **R&V Motor**:
 
-### 📁 Estructura del Proyecto
-El código de este módulo final se encuentra completamente aislado dentro de la carpeta `rv_motor_crm/`:
+1. **Simulación e Interacción de Campañas:** El sistema permite registrar promociones de motocicletas específicas. Para evaluar el impacto y medir la rentabilidad real de la campaña de marketing, se inyectan interacciones de clientes en lenguaje natural.
+2. **Entrada de Mensajes (Omnicanalidad Prototipada):** En la fase de pruebas del MVP, las interacciones se gestionan mediante dos vías:
+   * Un script automatizado en **Google Colab** que inyecta un lote de 50 leads de prueba con comportamientos mixtos.
+   * Una conexión controlada en vivo empleando un dispositivo móvil real (el teléfono de la esposa del desarrollador) a través de un entorno seguro como **Twilio Sandbox para WhatsApp**.
+3. **Procesamiento Analítico (Agente LLM):** Cada mensaje entrante es interceptado y enviado al modelo de lenguaje. El agente analiza psicológicamente el texto del usuario para comprender su nivel de urgencia e intención de compra, y redacta una respuesta comercial óptima.
+4. **Persistencia e Interfaz de Control:** Las clasificaciones y variables analizadas por la IA se guardan en una base de datos estructurada. Estos datos alimentan dinámicamente un Dashboard en **Streamlit** que calcula de forma automática el Retorno de Inversión (ROI) y muestra gráficamente la salud del embudo de ventas.
+
+### 📊 Criterios de Clasificación de Leads
+El Agente de IA evalúa la semántica de los mensajes y asigna estrictamente una de las siguientes categorías:
+* **Lead Caliente:** Alta intención de compra inmediata. Clientes decididos que solicitan métodos de pago, datos de transferencia bancaria o disponibilidad para apartar/retirar un modelo de motocicleta el mismo día.
+* **Cliente Potencial:** Interés real y genuino pero en fase de maduración. Usuarios que solicitan requisitos para planes de financiamiento, créditos de la casa, fichas técnicas o agendan citas para visitar el local físico.
+* **Lead Frío:** Dudas muy vagas, saludos sin continuidad comercial o rechazo explícito por objeciones de costo ("está muy caro gracias", "solo miraba precios", "ok").
+* **Irrelevante / Spam:** Mensajes erróneos o fuera del rubro comercial de la empresa.
+
+---
+
+## 📅 Plan de Ejecución General (4 Semanas)
+
+El proyecto se desarrolla bajo una metodología ágil incremental basada en hitos semanales:
+* **Semana 1 (Hito Actual):** Configuración de la infraestructura cloud, entorno aislado de carpetas en GitHub, definición de requerimientos y despliegue del cascarón visual.
+* **Semana 2:** Programación del pipeline del Agente de IA y estructuración del prompt de clasificación en formato JSON estricto mediante Google Colab.
+* **Semana 3:** Diseño e implementación del Dashboard analítico, gráficas dinámicas de Plotly y la calculadora de ROI en Streamlit.
+* **Semana 4:** Evaluación científica del modelo (Métricas académicas y matriz de confusión) e integración final del chat interactivo en tiempo real para la demostración en vivo.
+
+---
+
+## ⚙️ Arquitectura Tecnológica (Hito Semana 1)
+
+La infraestructura base ha sido aislada por completo dentro del directorio `rv_motor_crm/` para garantizar la replicabilidad del contenedor de producción sin alterar las prácticas regulares del aula:
 * `app_dashboard.py`: Archivo principal de la interfaz visual construido sobre **Streamlit**.
-* `requirements.txt`: Archivo de configuración que contiene las dependencias analíticas y de IA requeridas.
+* `requirements.txt`: Archivo de configuración que congela las dependencias analíticas y de IA requeridas.
 * `README.md`: Documentación técnica del estado del arte del proyecto (este archivo).
 
-### ⚙️ Tecnologías y Librerías Utilizadas
-Las dependencias han sido congeladas en versiones estables dentro de la carpeta del proyecto para asegurar la replicabilidad:
+### Librerías del Ecosistema
 * **Streamlit (v1.35.0):** Framework para el desarrollo de la interfaz de usuario web.
-* **Pandas (v2.2.2):** Biblioteca de manipulación y análisis de estructuras de datos.
+* **Pandas (v2.2.2):** Biblioteca de manipulación de estructuras de datos.
 * **Google Generative AI (v0.5.4):** SDK oficial para conectar con los modelos fundacionales de Gemini 1.5.
-* **Plotly (v5.22.0):** Biblioteca gráfica interactiva para el cálculo visual de analíticas de negocio.
+* **Plotly (v5.22.0):** Biblioteca gráfica interactiva para analíticas de negocio.
 
 ---
 
 ## 🔒 Buenas Prácticas de Ciberseguridad Aplicadas
 
-Siguiendo las directrices avanzadas de desarrollo seguro, **este proyecto prohíbe estrictamente la exposición de API Keys (credenciales duras) en el código fuente**.
-* **En desarrollo (Google Colab):** Las llaves de acceso se consumen mediante el gestor nativo de secrets (`from google.colab import userdata`).
+Siguiendo las directrices avanzadas de desarrollo seguro en IA, **este proyecto prohíbe estrictamente la exposición de API Keys en el código fuente**:
+* **En desarrollo (Google Colab):** Las llaves se consumen mediante el gestor nativo de secrets (`from google.colab import userdata`).
 * **En producción (Streamlit Cloud):** Las credenciales se inyectan dinámicamente utilizando el entorno cifrado de Streamlit Secrets (`st.secrets`).
+
+---
+
+## 🚀 Escalabilidad Comercial Futura
+La arquitectura de software propuesta desacopla totalmente el canal de mensajería del motor de IA. Esto garantizará que, tras concluir el módulo académico, el prototipo pueda escalarse e integrarse directamente a los canales de producción reales de la empresa: **WhatsApp Business API (Oficial)**, **Instagram Graph API**, **Facebook Messenger** y CRMs corporativos (como HubSpot o Zoho CRM) mediante Webhooks estables de alta disponibilidad.
 
 ---
 
