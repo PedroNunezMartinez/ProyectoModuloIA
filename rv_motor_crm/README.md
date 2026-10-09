@@ -33,6 +33,13 @@ El proyecto se desarrolla bajo una metodología ágil incremental basada en hito
 * **Semana 4:** Evaluación científica del modelo (Métricas académicas y matriz de confusión) e integración final del chat interactivo en tiempo real para la demostración en vivo.
 
 ---
+## 🤖 Ingeniería de Prompts & Arquitectura del Agente (Semana 2)
+
+Para garantizar la estabilidad del pipeline analítico y forzar al modelo **Gemini 3.8 Flash** a responder en JSON estricto sin romper la estructura de las filas, se diseñó un prompt basado en asignación de rol, restricciones semánticas y control de formato de salida (`response_mime_type="application/json"`). 
+
+El diseño lógico del prompt instruye al agente a evaluar las intenciones de compra y redactar respuestas comerciales automatizadas de forma síncrona. La evidencia técnica de este desarrollo, el manejo de errores (bloques `try-except`) y las pausas controladas para respetar los límites de la API gratuita se encuentran documentados de forma transparente en el cuaderno de desarrollo **`agente_clasificador.ipynb`**, el cual alimenta de manera directa el set de datos enriquecido **`mensajes_clasificados_ia.csv`**.
+
+---
 
 ## ⚙️ Arquitectura Tecnológica (Hito Semana 1)
 
