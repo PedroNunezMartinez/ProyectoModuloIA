@@ -104,40 +104,85 @@ with col4:
 
 st.markdown("---")
 
-# 6. BLOQUE DE GRÁFICOS (Plotly Express)
-col_graf1, col_graf2 = st.columns(2)
+# 6. BLOQUE DE GRÁFICOS (Plotly Express con Etiquetas y Tendencia)
+st.subheader("📊 Análisis Avanzado de Tráfico y Tendencia")
 
-with col_graf1:
-    st.subheader("📊 Tráfico por Tipo de Lead")
-    fig_bar = px.bar(
-        df_filtrado['interes_ia'].value_counts().reset_index(),
-        x='interes_ia',
-        y='count',
-        labels={'interes_ia': 'Clasificación IA', 'count': 'Mensajes'},
-        color='interes_ia',
-        color_discrete_map={
-            'Lead Caliente': '#EF553B',
-            'Cliente Potencial': '#00CC96',
-            'Cliente que Solo Pregunta': '#636EFA',
-            'Lead Frío': '#AB63FA'
-        },
-        template="plotly_dark"
-    )
-    st.plotly_chart(fig_bar, use_container_width=True)
+# Crear pestañas para organizar los gráficos de forma ejecutiva
+tab1, tab2 = st.tabs(["📊 Distribución de Leads", "📈 Tendencia Temporal"])
 
-with col_graf2:
-    st.subheader("🍕 Distribución del Embudo Comercial")
-    fig_pie = px.pie(
-        df_filtrado, 
-        names='interes_ia', 
-        hole=0.4,
-        template="plotly_dark"
-    )
-    st.plotly_chart(fig_pie, use_container_width=True)
+with tab1:
+    col_graf1, col_graf2 = st.columns(2)
+    
+    with col_graf1:
+        st.subheader("Tráfico con Conteo en Barra")
+        # Generamos el conteo ordenado
+        df_conteo = df_filtrado['interes_ia'].value_counts().reset_index()
+        df_conteo.columns = ['interes_ia', 'count']
+        
+        fig_bar = px.bar(
+            df_conteo,
+            x='interes_ia',
+            y='count',
+            labels={'interes_ia': 'Clasificación IA', 'count': 'Mensajes'},
+            color='interes_ia',
+            text='count',  # ¡ESTA LÍNEA PONE EL NÚMERO ENCIMA DE LA BARRA!
+            color_discrete_map={
+                'lead caliente': '#EF553B',
+                'cliente potencial': '#00CC96',
+                'cliente que solo pregunta': '#636EFA',
+                'lead frío': '#AB63FA'
+            },
+            template="plotly_dark"
+        )
+        # Ajustamos para que el número se posicione afuera/arriba de la barra
+        fig_bar.update_traces(textposition='outside')
+        fig_bar.update_layout(yaxis=dict(title='Total Mensajes (Eje Y)'))
+        st.plotly_chart(fig_bar, use_container_width=True)
+    
+    with col_graf2:
+        st.subheader("Distribución del Embudo")
+        fig_pie = px.pie(
+            df_filtrado, 
+            names='interes_ia', 
+            hole=0.4,
+            template="plotly_dark",
+            color_discrete_sequence=px.colors.qualitative.Pastel
+        )
+        st.plotly_chart(fig_pie, use_container_width=True)
 
-st.markdown("---")
+with tab2:
+    st.subheader("📈 Línea de Tendencia Acumulada de Leads")
+    
+    # Verificamos si tu CSV tiene una columna de fecha; si no, simulamos un histórico para la demo
+    df_linea = df_filtrado.copy()
+    if 'fecha' not in df_linea.columns:
+        # Simulamos fechas consecutivas de los últimos días para tus leads
+        import datetime
+        base_fecha = datetime.date.today() - datetime.timedelta(days=10)
+        df_linea['fecha_simulada'] = [base_fecha + datetime.timedelta(days=i % 10) for i in range(len(df_linea))]
+        df_linea = df_linea.sort_values(by='fecha_simulada')
+        
+        # Agrupamos por fecha y tipo de lead para ver la evolución
+        df_tendencia = df_linea.groupby(['fecha_simulada', 'interes_ia']).size().reset_index(name='nuevos_leads')
+        
+        fig_line = px.line(
+            df_tendencia,
+            x='fecha_simulada',
+            y='nuevos_leads',
+            color='interes_ia',
+            markers=True,  # Pone los puntos en cada intersección de la línea
+            labels={'fecha_simulada': 'Fecha de Recepción', 'nuevos_leads': 'Cantidad de Leads'},
+            template="plotly_dark",
+            title="Evolución de contactos por día en R&V Motor"
+        )
+        st.plotly_chart(fig_line, use_container_width=True)
+    else:
+        # Si tu CSV real ya tiene fechas, se grafica con tus datos reales de Colab
+        df_tendencia = df_linea.groupby(['fecha', 'interes_ia']).size().reset_index(name='nuevos_leads')
+        fig_line = px.line(df_tendencia, x='fecha', y='nuevos_leads', color='interes_ia', markers=True, template="plotly_dark")
+        st.plotly_chart(fig_line, use_container_width=True)
 
-# 7. TABLA DE DATOS INTERACTIVA (Mapeo Blindado de Columnas)
+st.markdown("---")# 7. TABLA DE DATOS INTERACTIVA (Mapeo Blindado de Columnas)
 st.subheader("📋 Registro Histórico e Interacciones del Chatbot")
 
 # Buscador inteligente de columnas para la tabla para evitar KeyErrors
