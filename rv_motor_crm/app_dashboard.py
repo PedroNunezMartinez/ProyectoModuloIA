@@ -54,7 +54,6 @@ st.markdown("---")
 
 # 5. BLOQUE DE MÉTRICAS (Matemática Financiera)
 total_leads = len(df)
-# Filtramos los calientes y potenciales como la base de cierre de ventas
 leads_valorables = len(df[df['interes_ia'].isin(['Lead Caliente', 'Cliente Potencial'])])
 ventas_estimadas = int((leads_valorables * tasa_conversion) / 100)
 ingreso_estimado = ventas_estimadas * valor_moto_promedio
