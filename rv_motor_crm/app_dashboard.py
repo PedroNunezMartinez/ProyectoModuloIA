@@ -137,12 +137,37 @@ with col_graf2:
 
 st.markdown("---")
 
-# 7. TABLA DE LOGS EN TIEMPO REAL
+# 7. TABLA DE DATOS INTERACTIVA (Mapeo Blindado de Columnas)
 st.subheader("📋 Registro Histórico e Interacciones del Chatbot")
-st.dataframe(
-    df_filtrado[['cliente', 'interes_ia', 'motivo_semantico', 'respuesta_automatica']],
-    use_container_width=True,
-    hide_index=True
-)
 
-st.caption("🔒 R&V Motor CRM v1.0 | Código verificado en GitHub. Ejecución segura en Streamlit sin exposición de llaves API.")
+# Buscador inteligente de columnas para la tabla para evitar KeyErrors
+columnas_tabla = []
+mapeo_columnas = {
+    'cliente': ['cliente', 'nombre', 'contacto', 'user', 'id'],
+    'interes_ia': ['interes_ia', 'interes', 'intencion', 'clasificacion', 'categoria'],
+    'motivo_semantico': ['motivo_semantico', 'motivo', 'razon', 'semantic', 'contexto'],
+    'respuesta_automatica': ['respuesta_automatica', 'respuesta', 'bot_response', 'reply']
+}
+
+# Creamos una lista con las columnas reales que existan en tu DataFrame filtrado
+columnas_visibles = {}
+for variable_sistema, sinonimos in mapeo_columnas.items():
+    for col in df_filtrado.columns:
+        if col in sinonimos:
+            columnas_visibles[variable_sistema] = col
+            break
+
+# Intentamos proyectar las columnas encontradas; si falta alguna, mostramos las que tengamos disponibles
+if len(columnas_visibles) > 0:
+    st.dataframe(
+        df_filtrado[list(columnas_visibles.values())],
+        use_container_width=True,
+        hide_index=True
+    )
+else:
+    # Si por alguna razón técnica extrema no machea, muestra el dataframe filtrado completo sin romperse
+    st.dataframe(
+        df_filtrado,
+        use_container_width=True,
+        hide_index=True
+    )
