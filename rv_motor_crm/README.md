@@ -51,8 +51,10 @@ La infraestructura base ha sido aislada por completo dentro del directorio `rv_m
 ### Librerías del Ecosistema
 * **Streamlit (v1.35.0):** Framework para el desarrollo de la interfaz de usuario web.
 * **Pandas (v2.2.2):** Biblioteca de manipulación de estructuras de datos.
-* **Google Generative AI (v0.5.4):** SDK oficial para conectar con los modelos fundacionales de Gemini 1.5.
+* **Google Generative AI (v0.5.4):** SDK oficial para conectar con los modelos fundacionales de Gemini 3.8 Flash
 * **Plotly (v5.22.0):** Biblioteca gráfica interactiva para analíticas de negocio.
+* GoogleGemini SDK Migration Guide** google-genai==1.3.0,
+* El Puente Twilio Webhook**
 
 ---
 
