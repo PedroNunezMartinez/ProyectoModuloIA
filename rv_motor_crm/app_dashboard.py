@@ -16,18 +16,27 @@ st.set_page_config(
 def cargar_datos():
     ruta_csv = os.path.join(os.path.dirname(__file__), 'mensajes_clasificados_ia.csv')
     
-    # Si aún no has subido el CSV definitivo de Colab, genera la estructura con tus 4 etiquetas exactas
-    if not os.path.exists(ruta_csv):
-        return pd.DataFrame({
-            'cliente': [f'Contacto {i}' for i in range(1, 13)],
-            'interes_ia': ['Lead Caliente', 'Lead Frío', 'Cliente Potencial', 'Cliente que Solo Pregunta'] * 3,
-            'motivo_semantico': ['Quiere financiar una 150cc', 'Mensaje equivocado', 'Quiere ver motos el sábado', 'Pregunta por horarios'] * 3,
-            'respuesta_automatica': ['Claro, aquí tienes los planes...' for _ in range(12)]
-        })
-    return pd.read_csv(ruta_csv)
+    # Si existe el archivo, lo leemos y estandarizamos sus columnas
+    if os.path.exists(ruta_csv):
+        df_real = pd.read_csv(ruta_csv)
+        # Limpieza técnica: renombra las columnas a minúsculas y quita espacios
+        df_real.columns = df_real.columns.str.strip().str.lower()
+        
+        # Mapeo de seguridad: si vino en minúsculas en el CSV, lo adaptamos a la variable del código
+        if 'interes_ia' not in df_real.columns and 'interes' in df_real.columns:
+            df_real = df_real.rename(columns={'interes': 'interes_ia'})
+            
+        return df_real
+        
+    # Dataframe Sintético de Respaldo Absoluto con tus 4 etiquetas oficiales
+    return pd.DataFrame({
+        'cliente': [f'Contacto {i}' for i in range(1, 13)],
+        'interes_ia': ['Lead Caliente', 'Lead Frío', 'Cliente Potencial', 'Cliente que Solo Pregunta'] * 3,
+        'motivo_semantico': ['Quiere financiar una 150cc', 'Mensaje equivocado', 'Quiere ver motos el sábado', 'Pregunta por horarios'] * 3,
+        'respuesta_automatica': ['Claro, aquí tienes los planes...' for _ in range(12)]
+    })
 
 df = cargar_datos()
-
 # 3. BARRA LATERAL (Calculadora de ROI y Filtros)
 st.sidebar.image("https://icons8.com", width=80)
 st.sidebar.title("R&V Motor CRM")
