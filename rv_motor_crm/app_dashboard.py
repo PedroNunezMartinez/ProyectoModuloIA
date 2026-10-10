@@ -16,27 +16,51 @@ st.set_page_config(
 def cargar_datos():
     ruta_csv = os.path.join(os.path.dirname(__file__), 'mensajes_clasificados_ia.csv')
     
-    # Si existe el archivo, lo leemos y estandarizamos sus columnas
     if os.path.exists(ruta_csv):
-        df_real = pd.read_csv(ruta_csv)
-        # Limpieza técnica: renombra las columnas a minúsculas y quita espacios
+        # sep=None y engine='python' detectan automáticamente si está separado por comas o tabuladores (\t)
+        df_real = pd.read_csv(ruta_csv, sep=None, engine='python')
+        
+        # Limpieza técnica: pasamos los nombres de columnas a minúsculas y quitamos espacios
         df_real.columns = df_real.columns.str.strip().str.lower()
         
-        # Mapeo de seguridad: si vino en minúsculas en el CSV, lo adaptamos a la variable del código
-        if 'interes_ia' not in df_real.columns and 'interes' in df_real.columns:
-            df_real = df_real.rename(columns={'interes': 'interes_ia'})
+        # BUSCADOR INTELIGENTE DE COLUMNAS: Mapea la columna de clasificación sin importar cómo se llame
+        columna_encontrada = None
+        posibles_nombres = ['interes_ia', 'interes', 'intencion', 'clasificacion', 'categoria', 'label']
+        
+        # Si Pandas leyó una sola columna por error, renombramos la columna 5 o 6 que corresponde al interés
+        if len(df_real.columns) > 4:
+            for nombre in posibles_nombres:
+                for col in df_real.columns:
+                    if nombre in col:
+                        columna_encontrada = col
+                        break
+        
+        if columna_encontrada:
+            df_real = df_real.rename(columns={columna_encontrada: 'interes_ia'})
+        else:
+            # Si no detectó los nombres por el formato, asignamos 'interes_ia' a la quinta columna (índice 4 o 5)
+            if len(df_real.columns) >= 5:
+                df_real.rename(columns={df_real.columns[4]: 'interes_ia'}, inplace=True)
+        
+        # Limpieza de filas con errores de cuota (como el RESOURCE_EXHAUSTED de la fila 21)
+        if 'interes_ia' in df_real.columns:
+            # Asegura que solo se grafiquen estados válidos del negocio
+            estados_validos = ['Lead Caliente', 'Lead Frío', 'Cliente Potencial', 'Cliente que Solo Pregunta']
+            # Si hay textos de error de la API, los limpia mapeándolos a 'Lead Frío' o un estado genérico
+            df_real['interes_ia'] = df_real['interes_ia'].apply(lambda x: x if str(x).strip() in estados_validos else 'Cliente que Solo Pregunta')
             
         return df_real
         
-    # Dataframe Sintético de Respaldo Absoluto con tus 4 etiquetas oficiales
+    # Dataframe Sintético de Respaldo Absoluto con tus 4 etiquetas oficiales si el archivo no existe
     return pd.DataFrame({
         'cliente': [f'Contacto {i}' for i in range(1, 13)],
         'interes_ia': ['Lead Caliente', 'Lead Frío', 'Cliente Potencial', 'Cliente que Solo Pregunta'] * 3,
         'motivo_semantico': ['Quiere financiar una 150cc', 'Mensaje equivocado', 'Quiere ver motos el sábado', 'Pregunta por horarios'] * 3,
         'respuesta_automatica': ['Claro, aquí tienes los planes...' for _ in range(12)]
     })
-
+    
 df = cargar_datos()
+
 # 3. BARRA LATERAL (Calculadora de ROI y Filtros)
 st.sidebar.image("https://icons8.com", width=80)
 st.sidebar.title("R&V Motor CRM")
