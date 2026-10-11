@@ -61,16 +61,8 @@ def cargar_datos():
     
 df = cargar_datos()
 
-# 3. BARRA LATERAL (Calculadora de ROI y Filtros - Versión Blindada)
-import os
-
-ruta_logo = os.path.join(os.path.dirname(__file__), 'logo_rv.png')
-
-# Usamos use_column_width=True para máxima compatibilidad con Streamlit 1.35.0
-if os.path.exists(ruta_logo):
-    st.sidebar.image(ruta_logo, use_column_width=True)
-else:
-    st.sidebar.image("https://icons8.com", width=80)
+# 3. BARRA LATERAL (Calculadora de ROI y Filtros)
+st.sidebar.image("https://icons8.com", width=80)
 
 st.sidebar.title("R&V Motor CRM")
 st.sidebar.caption("Módulo de Inteligencia Artificial")
@@ -81,13 +73,6 @@ costo_campana = st.sidebar.number_input("Inversión Campaña ($)", min_value=1.0
 valor_moto_promedio = st.sidebar.number_input("Precio Promedio Moto ($)", min_value=1000.0, value=3000.0, step=100.0)
 tasa_conversion = st.sidebar.slider("Tasa de Conversión de Leads %", min_value=1, max_value=100, value=15)
 
-st.sidebar.markdown("---")
-st.sidebar.subheader("🔍 Filtros del Embudo")
-categorias_reales = ['Lead Caliente', 'Lead Frío', 'Cliente Potencial', 'Cliente que Solo Pregunta']
-categorias_seleccionadas = st.sidebar.multiselect("Clasificación IA:", categorias_reales, default=categorias_reales)
-
-# Filtrado dinámico del dataframe
-df_filtrado = df[df['interes_ia'].isin(categorias_seleccionadas)]
 st.sidebar.markdown("---")
 st.sidebar.subheader("🔍 Filtros del Embudo")
 categorias_reales = ['Lead Caliente', 'Lead Frío', 'Cliente Potencial', 'Cliente que Solo Pregunta']
