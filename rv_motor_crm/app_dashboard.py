@@ -61,8 +61,17 @@ def cargar_datos():
     
 df = cargar_datos()
 
-# 3. BARRA LATERAL (Calculadora de ROI y Filtros)
-st.sidebar.image("https://icons8.com", width=80)
+# 3. BARRA LATERAL (Calculadora de ROI y Filtros - Con tu Logo Real)
+import os
+
+ruta_logo = os.path.join(os.path.dirname(__file__), 'logo_rv.png')
+
+# Si subiste el logo a GitHub lo muestra; si no, pone un emoji para que no falle
+if os.path.exists(ruta_logo):
+    st.sidebar.image(ruta_logo, use_container_width=True)
+else:
+    st.sidebar.image("https://icons8.com", width=80)
+
 st.sidebar.title("R&V Motor CRM")
 st.sidebar.caption("Módulo de Inteligencia Artificial")
 
