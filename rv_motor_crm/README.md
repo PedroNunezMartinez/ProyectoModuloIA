@@ -53,8 +53,8 @@ La infraestructura base ha sido aislada por completo dentro del directorio `rv_m
 * **Pandas (v2.2.2):** Biblioteca de manipulación de estructuras de datos.
 * **Google Generative AI (v0.5.4):** SDK oficial para conectar con los modelos fundacionales de Gemini 3.8 Flash
 * **Plotly (v5.22.0):** Biblioteca gráfica interactiva para analíticas de negocio.
-* GoogleGemini SDK Migration Guide** google-genai==1.3.0,
-* El Puente Twilio Webhook**
+* **Google GenAI SDK (v1.3.0):** Biblioteca moderna oficial para la invocación estructurada del modelo gemini-3.8-flash [1.1].
+* **Twilio Python SDK:** Framework para la conexión y transmisión atómica del payload mediante webhooks seguros de WhatsApp [1.1].
 
 ---
 
@@ -65,9 +65,12 @@ Siguiendo las directrices avanzadas de desarrollo seguro en IA, **este proyecto 
 * **En producción (Streamlit Cloud):** Las credenciales se inyectan dinámicamente utilizando el entorno cifrado de Streamlit Secrets (`st.secrets`).
 
 ---
-## Nota Acedémica
+🤖 Declaración Académica y Salvaguarda de Autoría (Uso Ético de IA)
+En estricto cumplimiento con el marco de integridad académica de la Maestría en IA, se declara formalmente la metodología implementada en el uso de herramientas generativas:
 
-## Nota de Salvaguarda Metodológica y Uso de IA El diseño, estructuración y documentación de este ecosistema inteligente se ejecutaron bajo los principios de la ingeniería de software moderna y la Gobernanza de IA, siguiendo un flujo metodológico dividido en tres etapas controladas: 1. **Fase de Experimentación y Sandbox (Google Colab):** Toda la calibración del modelo analítico, las pruebas iniciales de prompts de negocio y la validación semántica del modelo `gemini-3.8-flash` se realizaron de manera autónoma utilizando cuadernos de **Google Colab**, garantizando un entorno aislado para el tratamiento lógico antes de la codificación en producción [1.1]. 2. **Asistencia de Co-Programación (Ingeniería de Prompts):** En estricto apego a las directrices de la Maestría, se utilizaron asistentes de Inteligencia Artificial Generativa únicamente como copilotos técnicos y aceleradores de desarrollo. Su uso se limitó a la limpieza de indentación, formateo de sintaxis Markdown y estructuración de plantillas oficiales previamente provistas. El diseño conceptual, las reglas financieras de cálculo de ROI, el flujo del webhook y la validación física en campo fueron ideados, configurados y ejecutados exclusivamente por el autor [1.1, 1.2]
+* **Desarrollo y Laboratorio Independiente (Google Colab):** Las fases experimentales de calibración lógica, optimización de hiperparámetros de temperatura, pruebas del prompt de sistema y la inyección sintética del lote inicial de 50 leads se ejecutaron de manera autónoma en cuadernos de Google Colab bajo la estricta autoría intelectual del desarrollador [1.1].
+* **Uso Controlado de IA como Copiloto Técnico:** Se emplearon asistentes de inteligencia artificial generativa exclusivamente como herramientas de apoyo para la optimización de código base (refactorización de bloques `try-except`), depuración de errores lógicos de indentación (`TabError`) y formateo estructural de los documentos Markdown de especificación técnica [1.1, 1.3].
+* **Gobernanza del Proyecto:** El diseño conceptual del pipeline, la integración de la pasarela local con Flask/Twilio/Ngrok, las ecuaciones de fusión financiera para el cómputo en vivo del Retorno de Inversión (ROI) y la recolección física de evidencias comerciales reales en el Sandbox representan un esfuerzo de ingeniería original e independiente ideado en su totalidad por el autor [1.1, 1.2].
 ---
 
 ## 🚀 Escalabilidad Comercial Futura
