@@ -65,7 +65,7 @@ Siguiendo las directrices avanzadas de desarrollo seguro en IA, **este proyecto 
 * **En producción (Streamlit Cloud):** Las credenciales se inyectan dinámicamente utilizando el entorno cifrado de Streamlit Secrets (`st.secrets`).
 
 ---
-## 10. Nota Acedémica
+## Nota Acedémica
 
 ## Nota de Salvaguarda Metodológica y Uso de IA El diseño, estructuración y documentación de este ecosistema inteligente se ejecutaron bajo los principios de la ingeniería de software moderna y la Gobernanza de IA, siguiendo un flujo metodológico dividido en tres etapas controladas: 1. **Fase de Experimentación y Sandbox (Google Colab):** Toda la calibración del modelo analítico, las pruebas iniciales de prompts de negocio y la validación semántica del modelo `gemini-3.8-flash` se realizaron de manera autónoma utilizando cuadernos de **Google Colab**, garantizando un entorno aislado para el tratamiento lógico antes de la codificación en producción [1.1]. 2. **Asistencia de Co-Programación (Ingeniería de Prompts):** En estricto apego a las directrices de la Maestría, se utilizaron asistentes de Inteligencia Artificial Generativa únicamente como copilotos técnicos y aceleradores de desarrollo. Su uso se limitó a la limpieza de indentación, formateo de sintaxis Markdown y estructuración de plantillas oficiales previamente provistas. El diseño conceptual, las reglas financieras de cálculo de ROI, el flujo del webhook y la validación física en campo fueron ideados, configurados y ejecutados exclusivamente por el autor [1.1, 1.2]
 ---
